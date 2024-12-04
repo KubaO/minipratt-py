@@ -48,8 +48,9 @@ class Lexer:
     @classmethod
     def _scan(cls, input_: str) -> Iterable[Token]:
         for match in cls._scanner.finditer(input_):
-            i, text = next(filter(lambda m: m[1] is not None, enumerate(match.groups())))
-            yield Token(cls._types[i], text)
+            i = match.lastindex
+            text = match[i]
+            yield Token(cls._types[i - 1], text)
 
     def next(self) -> Token:
         return self.tokens.pop()
